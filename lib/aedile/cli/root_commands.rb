@@ -8,9 +8,18 @@ module Aedile
       desc "service SUBCOMMAND ...ARGS", "manage the set of services"
       subcommand "service", ServiceCommands
 
+
+      desc "process SUBCOMMAND ...ARGS", "interact with individual aedile-managed processes"
+      subcommand "process", ProcessCommands
+
       desc "status", "shows aedile's status"
       def status
         table Aedile.client.services.map(&:status_hash), description: false, unicode: true
+      end
+
+      desc "ps", "show processes"
+      def ps
+        invoke ProcessCommands, "list"
       end
 
       desc "manage", "starts running process that watches etcd for config changes and applies them"

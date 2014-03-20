@@ -6,5 +6,6 @@ module Aedile
 
     autoload :RootCommands
     autoload :ServiceCommands
+    autoload :ProcessCommands
   end
 end
