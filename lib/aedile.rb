@@ -1,5 +1,6 @@
 require "aedile/version"
 require 'active_support'
+require 'active_support/core_ext/object/blank'
 require 'etcd'
 require 'multi_json'
 
