@@ -4,7 +4,7 @@ module Aedile
 
     DEFAULT_CONFIG = {
       image:   "ubuntu",
-      command: "/bin/bash".
+      command: "/bin/bash",
     }
 
     def initialize(client, name)
