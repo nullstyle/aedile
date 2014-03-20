@@ -1,20 +1,16 @@
-# Aedile
+# Aedile - simple PaaS on top of CoreOS and Fleet
 
-TODO: Write a gem description
+TODO: Write a description
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'aedile'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Running this on a system that has ruby 1.9 or greater installed?:
 
     $ gem install aedile
+
+Running this on a system that has docker installed?:
+
+    $ docker pull nullstyle/aedile
 
 ## Usage
 
