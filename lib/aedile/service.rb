@@ -15,7 +15,7 @@ module Aedile
     def exists?
       @client.etcd.get(config_etcd_key)
       true
-    rescue Etcd::KeyNotFound => e
+    rescue Etcd::KeyNotFound
       false
     end
 
@@ -32,7 +32,7 @@ module Aedile
       config_json = Util.dump_json(config)
       @client.etcd.set(config_etcd_key, value:config_json, prevExist:true)
       :updated
-    rescue Etcd::KeyNotFound => e
+    rescue Etcd::KeyNotFound
       :doesnt_exist
     end
 
@@ -53,7 +53,7 @@ module Aedile
       begin
         @client.etcd.set(config_etcd_key, value:config_json, prevExist:false)
         :created
-      rescue Etcd::NodeExist => e
+      rescue Etcd::NodeExist
         :already_exists
       end
     end
@@ -62,7 +62,7 @@ module Aedile
       begin
         @client.etcd.delete(etcd_key, recursive:true)
         :deleted
-      rescue Etcd::KeyNotFound => e
+      rescue Etcd::KeyNotFound
         :doesnt_exist
       end
     end
