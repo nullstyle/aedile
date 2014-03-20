@@ -25,6 +25,8 @@ module Aedile
       return [:unchanged, data] if input == output
       
       [:changed, load_json(output)]
+    rescue MultiJson::ParseError
+      [:unparsable, data]
     end
 
     extend self
