@@ -48,8 +48,10 @@ module Aedile
 
       desc "show NAME", "outputs the config for NAME to standard out"
       def show(name)
-        puts "TODO: load config from etcd"
-        puts "TODO: puts it to console"
+        service = Aedile.client.get_service(name)
+        config  = service.config
+
+        puts Util.dump_json(config)
       end
 
       desc "edit NAME", "opens config for NAME in current environment's editor for editing"
