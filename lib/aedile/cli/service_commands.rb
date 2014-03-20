@@ -4,14 +4,7 @@ module Aedile
 
       desc "list", "shows all known services"
       def list
-        etcd = Etcd.client
-        services =  begin
-                      etcd.get("/aedile/services").children.map{|child| File.basename(child.key) }
-                    rescue Etcd::KeyNotFound => e
-                      []
-                    end
-
-        services.each{|s| puts s }
+        Aedile.client.service_names.each{|s| puts s }
       end
 
       desc "new NAME", "creates a new service named NAME"
@@ -20,13 +13,13 @@ module Aedile
         # puts "TODO: commit config to etcd"
         # puts "TODO: ask for initial scale"
         # puts "TODO: set initial scale in etcd"
+        service = Aedile.client.get_service(name)
 
-        etcd = Etcd.client
-        begin
-          etcd.set("/aedile/services/#{name}", value:"{}", prevExist:false)
+        case service.create({})
+        when :created ;
           puts "Created service #{name}"
-        rescue Etcd::NodeExist => e
-          puts "service #{name} already exists"
+        when :already_exists ;
+          puts "Service #{name} already exists"
           exit 1
         end
       end
