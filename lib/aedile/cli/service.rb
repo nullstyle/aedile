@@ -2,6 +2,18 @@ module Aedile
   module Cli
     class Service < Thor
 
+      desc "list", "shows all known services"
+      def list
+        etcd = Etcd.client
+        services =  begin
+                      etcd.get("/aedile/services")
+                    rescue Etcd::KeyNotFound => e
+                      []
+                    end
+                    
+        services.each{|s| puts s }
+      end
+
       desc "new NAME", "creates a new service named NAME"
       def new(name)
         puts "TODO: open an editor to set the beginning config"
