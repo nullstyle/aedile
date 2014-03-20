@@ -10,17 +10,32 @@ module Aedile
 
       desc "new NAME", "creates a new service named NAME"
       def new(name)
-        # puts "TODO: open an editor to set the beginning config"
-        # puts "TODO: commit config to etcd"
-        # puts "TODO: ask for initial scale"
-        # puts "TODO: set initial scale in etcd"
+
         service = Aedile.client.get_service(name)
-        result  = service.create({})
+        die! "Service #{name} already exists: aborting" if service.exists?        
+
+        result, new_config = *Util.edit_as_json(service.config)
+        case result
+        when :changed, :unchanged ; #noop, continue onto etcd write
+        when :canceled ;
+          die! "Creation canceled"
+        when :unparsable ;
+          new(name) if yes?("Unparsable JSON, try again? (y/N)")
+          die! "Aborting"
+        else ;
+          die! "Unknown result: #{result}"
+        end
+
+        result = service.create(new_config)
         case result
         when :created ;         win! "Created service #{name}"
         when :already_exists ;  die! "Service #{name} already exists"
         else ;                  die! "Unknown result: #{result}"
         end
+
+
+        # puts "TODO: ask for initial scale"
+        # puts "TODO: set initial scale in etcd"
       end
 
       desc "delete NAME", "deletes service NAME"
