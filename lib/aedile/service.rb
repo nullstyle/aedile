@@ -13,14 +13,14 @@ module Aedile
     end
 
     def exists?
-      @client.etcd.get("/aedile/services/#{name}/config")
+      @client.etcd.get(config_etcd_key)
       true
     rescue Etcd::KeyNotFound => e
       false
     end
 
     def config
-      config_json = @client.etcd.get("/aedile/services/#{name}/config").value
+      config_json = @client.etcd.get(config_etcd_key).value
       Util.load_json(config_json)
     rescue Etcd::KeyNotFound => e
       DEFAULT_CONFIG
@@ -30,7 +30,7 @@ module Aedile
       return :invalid_config if config[:image].blank?
 
       config_json = Util.dump_json(config)
-      @client.etcd.set("/aedile/services/#{name}/config", value:config_json, prevExist:true)
+      @client.etcd.set(config_etcd_key, value:config_json, prevExist:true)
       :updated
     rescue Etcd::KeyNotFound => e
       :doesnt_exist
@@ -40,7 +40,7 @@ module Aedile
       config_json = Util.dump_json(initial_config)
 
       begin
-        @client.etcd.set("/aedile/services/#{name}/config", value:config_json, prevExist:false)
+        @client.etcd.set(config_etcd_key, value:config_json, prevExist:false)
         :created
       rescue Etcd::NodeExist => e
         :already_exists
@@ -49,7 +49,7 @@ module Aedile
 
     def delete
       begin
-        @client.etcd.delete("/aedile/services/#{name}", recursive:true)
+        @client.etcd.delete(etcd_key, recursive:true)
         :deleted
       rescue Etcd::KeyNotFound => e
         :doesnt_exist
@@ -62,6 +62,17 @@ module Aedile
         service: name,
         status: "3 processes running (5 desired)",
       }
+    end
+
+    private
+    def etcd_key(subkey=nil)
+      result = "/aedile/services/#{@name}"
+      result << "/#{subkey}" if subkey.present?
+      result
+    end
+
+    def config_etcd_key
+      etcd_key("config")
     end
   end
 end
