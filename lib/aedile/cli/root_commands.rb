@@ -14,7 +14,7 @@ module Aedile
 
       desc "status", "shows aedile's status"
       def status
-        table Aedile.client.services.map(&:status_hash), description: false, unicode: true
+        view Aedile.client.services.map(&:status_hash), class: :tab_table
       end
 
       desc "ps", "show processes"

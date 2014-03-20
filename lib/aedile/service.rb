@@ -70,8 +70,8 @@ module Aedile
 
     def status_hash
       {
-        service: name,
-        status: "3 processes running (5 desired)",
+        SERVICE: name,
+        STATUS: "3 processes running (5 desired)",
       }
     end
 
