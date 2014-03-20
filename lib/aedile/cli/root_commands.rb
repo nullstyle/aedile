@@ -2,6 +2,8 @@ module Aedile
   module Cli
     class RootCommands < ::Thor
       include Aedile::Thor
+
+      map "srv" => :service  
       
       desc "service SUBCOMMAND ...ARGS", "manage the set of services"
       subcommand "service", ServiceCommands
