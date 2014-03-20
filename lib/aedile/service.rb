@@ -55,5 +55,13 @@ module Aedile
         :doesnt_exist
       end
     end
+
+
+    def status_hash
+      {
+        service: name,
+        status: "3 processes running (5 desired)",
+      }
+    end
   end
 end

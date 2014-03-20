@@ -8,7 +8,7 @@ module Aedile
 
       desc "status", "shows aedile's status"
       def status
-        puts "TODO: show each service along with the services scale and actual running processes"
+        table Aedile.client.services.map(&:status_hash), description: false
       end
 
       desc "manage", "starts running process that watches etcd for config changes and applies them"
