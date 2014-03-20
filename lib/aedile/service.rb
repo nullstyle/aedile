@@ -71,6 +71,13 @@ module Aedile
       end
     end
 
+    def image
+      config[:image]
+    end
+
+    def command
+      config[:command]
+    end
 
     def status_hash
       {

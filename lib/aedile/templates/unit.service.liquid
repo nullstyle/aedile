@@ -1,0 +1,8 @@
+# content for unit {{name}}
+[Unit]
+Description={{description}}
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker run {{image}} {{command}}
