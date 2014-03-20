@@ -27,4 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "thor",          "~> 0.18.1"
   spec.add_dependency "hirb",          "~> 0.7.1"
   spec.add_dependency "etcd",          "~> 0.2.3"
+  spec.add_dependency "tilt",          "~> 2.0.0"
+  spec.add_dependency "liquid",        "~> 2.6.1"
 end
