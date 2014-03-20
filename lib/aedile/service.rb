@@ -2,7 +2,10 @@ module Aedile
   class Service
     attr_reader :name
 
-    DEFAULT_CONFIG = {}
+    DEFAULT_CONFIG = {
+      image:   "ubuntu",
+      command: "/bin/bash".
+    }
 
     def initialize(client, name)
       @client = client
