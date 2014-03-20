@@ -57,6 +57,12 @@ module Aedile
       desc "edit NAME", "opens config for NAME in current environment's editor for editing"
       def edit(name)
         service = Aedile.client.get_service(name)
+
+        unless service.exists?
+          puts "Service #{name} doesn't exist: aborting"
+          exit 1
+        end
+
         config  = service.config
 
         result, new_config = *Util.edit_as_json(config)
@@ -70,8 +76,6 @@ module Aedile
             puts "Config for service #{name} updated"
           when :invalid_config ;
             puts "Config for service #{name} would become invalid: aborting"
-          when :doesnt_exist ;
-            puts "Service #{name} doesn't exist: aborting"
             exit 1
           else
             puts "Unknown result: #{set_result}"

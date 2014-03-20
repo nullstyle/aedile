@@ -12,6 +12,13 @@ module Aedile
       @name   = name
     end
 
+    def exists?
+      @client.etcd.get("/aedile/services/#{name}/config")
+      true
+    rescue Etcd::KeyNotFound => e
+      false
+    end
+
     def config
       config_json = @client.etcd.get("/aedile/services/#{name}/config").value
       Util.load_json(config_json)
