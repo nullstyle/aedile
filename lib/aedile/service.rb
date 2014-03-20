@@ -20,7 +20,7 @@ module Aedile
     end
 
     def set_config(config)
-      #TODO: validate config
+      return :invalid_config if config[:image].blank?
 
       config_json = Util.dump_json(config)
       @client.etcd.set("/aedile/services/#{name}/config", value:config_json, prevExist:true)

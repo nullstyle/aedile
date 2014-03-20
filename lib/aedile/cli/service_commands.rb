@@ -63,8 +63,21 @@ module Aedile
 
         case result
         when :changed ;
-          service.set_config(new_config)
-          puts "Config for service #{name} updated"
+          set_result = service.set_config(new_config)
+
+          case set_result
+          when :updated ;
+            puts "Config for service #{name} updated"
+          when :invalid_config ;
+            puts "Config for service #{name} would become invalid: aborting"
+          when :doesnt_exist ;
+            puts "Service #{name} doesn't exist: aborting"
+            exit 1
+          else
+            puts "Unknown result: #{set_result}"
+            exit 1
+          end
+
         when :canceled ;
           puts "Edit canceled"
           exit 1
