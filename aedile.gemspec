@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["nullstyle@gmail.com"]
   spec.description   = %q{Higher level orchestration on top of fleet}
   spec.summary       = %q{Higher level orchestration on top of fleet}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/nullstyle/aedile"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
