@@ -1,6 +1,7 @@
 module Aedile
   module Cli
-    class ServiceCommands < Thor
+    class ServiceCommands < ::Thor
+      include Aedile::Thor
 
       desc "list", "shows all known services"
       def list
@@ -16,39 +17,32 @@ module Aedile
         service = Aedile.client.get_service(name)
         result  = service.create({})
         case result
-        when :created ;
-          puts "Created service #{name}"
-        when :already_exists ;
-          puts "Service #{name} already exists"
-          exit 1
-        else
-          puts "Unknown result: #{result}"
-          exit 1
+        when :created ;         win! "Created service #{name}"
+        when :already_exists ;  die! "Service #{name} already exists"
+        else ;                  die! "Unknown result: #{result}"
         end
       end
 
       desc "delete NAME", "deletes service NAME"
       def delete(name)
-        exit 0 if no?("Are you sure you want to delete service #{name}? (y/N)")
-
         service = Aedile.client.get_service(name)
+
+        die! "Service #{name} doesn't exist: aborting" unless service.exists?        
+        win! if no?("Are you sure you want to delete service #{name}? (y/N)")
+
         result  = service.delete
 
         case result
-        when :deleted ;
-          puts "Deleted service #{name}"
-        when :doesnt_exist ;
-          puts "Service #{name} doesn't exist"
-          exit 1
-        else
-          puts "Unknown result: #{result}"
-          exit 1
+        when :deleted ;       win! "Deleted service #{name}"
+        when :doesnt_exist ;  die! "Service #{name} doesn't exist"
+        else ;                die! "Unknown result: #{result}"
         end
       end
 
       desc "show NAME", "outputs the config for NAME to standard out"
       def show(name)
         service = Aedile.client.get_service(name)
+        die! "Service #{name} doesn't exist: aborting" unless service.exists?
         config  = service.config
 
         puts Util.dump_json(config)
@@ -58,10 +52,7 @@ module Aedile
       def edit(name)
         service = Aedile.client.get_service(name)
 
-        unless service.exists?
-          puts "Service #{name} doesn't exist: aborting"
-          exit 1
-        end
+        die! "Service #{name} doesn't exist: aborting" unless service.exists?
 
         config  = service.config
 
@@ -72,28 +63,20 @@ module Aedile
           set_result = service.set_config(new_config)
 
           case set_result
-          when :updated ;
-            puts "Config for service #{name} updated"
-          when :invalid_config ;
-            puts "Config for service #{name} would become invalid: aborting"
-            exit 1
-          else
-            puts "Unknown result: #{set_result}"
-            exit 1
+          when :updated ;         win! "Config for service #{name} updated"
+          when :invalid_config ;  die! "Config for service #{name} would become invalid: aborting"
+          else ;                  die! "Unknown result: #{set_result}"
           end
 
         when :canceled ;
-          puts "Edit canceled"
-          exit 1
+          die! "Edit canceled"
         when :unchanged ;
-          puts "Config for service #{name} unchanged: aborting"
-          exit 1
+          die! "Config for service #{name} unchanged: aborting"
         when :unparsable ;
           edit(name) if yes?("Unparsable JSON, try again? (y/N)")
-          exit 1
+          die! "Aborting"
         else
-          puts "Unknown result: #{result}"
-          exit 1
+          die! "Unknown result: #{result}"
         end
       end
     end

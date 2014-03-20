@@ -11,6 +11,7 @@ module Aedile
   autoload :Client
   autoload :Service
   autoload :Util
+  autoload :Thor
 
   def self.client
     @client ||= Client.new
