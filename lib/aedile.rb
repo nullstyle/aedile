@@ -8,10 +8,13 @@ module Aedile
   extend ActiveSupport::Autoload 
 
   autoload :Cli
-  autoload :Client
-  autoload :Service
-  autoload :Util
   autoload :Thor
+  autoload :Util
+  autoload :Client
+
+  # "model" objects
+  autoload :Service
+  autoload :Process
 
   def self.client
     @client ||= Client.new

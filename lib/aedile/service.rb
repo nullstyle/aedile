@@ -47,6 +47,10 @@ module Aedile
       @client.etcd.set(scale_etcd_key, value:new_scale)
     end
 
+    def processes
+      @client.processes(self)
+    end
+
     def create(initial_config={})
       config_json = Util.dump_json(initial_config)
 

@@ -5,7 +5,7 @@ module Aedile
 
       desc "list NAME", "show processes for service NAME (or all services if NAME is unspecified)"
       def list(service_name=nil)
-        puts "TODO: load and show processes in a tree"
+        view Aedile.client.processes.map(&:status_hash), class: :tab_table, fields: [:UNIT, :STATUS]
       end
     end
   end
