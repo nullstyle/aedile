@@ -1,9 +1,9 @@
 module Aedile
   module Cli
-    class Root < Thor
+    class RootCommands < Thor
 
       desc "service SUBCOMMAND ...ARGS", "manage the set of services"
-      subcommand "service", Service
+      subcommand "service", ServiceCommands
 
       desc "status", "shows aedile's status"
       def status

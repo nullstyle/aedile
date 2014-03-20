@@ -1,6 +1,6 @@
 module Aedile
   module Cli
-    class Service < Thor
+    class ServiceCommands < Thor
 
       desc "list", "shows all known services"
       def list

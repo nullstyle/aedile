@@ -2,4 +2,4 @@
 
 require 'aedile'
 
-Aedile::Cli::Root.start
+Aedile::Cli::RootCommands.start

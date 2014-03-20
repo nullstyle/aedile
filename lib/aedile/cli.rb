@@ -4,7 +4,7 @@ module Aedile
   module Cli
     extend ActiveSupport::Autoload 
 
-    autoload :Root
-    autoload :Service
+    autoload :RootCommands
+    autoload :ServiceCommands
   end
 end
