@@ -1,5 +1,11 @@
+require 'hirb'
+
 module Aedile
   module Thor
+    extend ActiveSupport::Concern
+    include Hirb::Console
+
+
     def die!(message)
       puts message
       exit 1
