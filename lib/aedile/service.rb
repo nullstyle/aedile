@@ -36,6 +36,17 @@ module Aedile
       :doesnt_exist
     end
 
+    def scale
+      @client.etcd.get(scale_etcd_key).value.to_i
+    rescue Etcd::KeyNotFound
+      0
+    end
+
+    def set_scale(new_scale)
+      raise ArgumentError, "Invalid scale:#{new_scale.inspect}" unless scale >= 0
+      @client.etcd.set(scale_etcd_key, value:new_scale)
+    end
+
     def create(initial_config={})
       config_json = Util.dump_json(initial_config)
 
@@ -73,6 +84,10 @@ module Aedile
 
     def config_etcd_key
       etcd_key("config")
+    end
+
+    def scale_etcd_key
+      etcd_key("scale")
     end
   end
 end

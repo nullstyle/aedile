@@ -94,6 +94,24 @@ module Aedile
           die! "Unknown result: #{result}"
         end
       end
+
+      desc "scale NAME SCALE", "changes the scale of NAME to SCALE"
+      def scale(name, new_scale)
+        service = load_existing_service(name)
+
+        new_scale = Integer(new_scale)
+        service.set_scale(new_scale)
+        win! "scale for service #{name} set to #{new_scale}"
+      rescue ArgumentError
+        die! "Invalid scale #{new_scale.inspect}: aborting"
+      end
+
+      private
+      def load_existing_service(name)
+        service = Aedile.client.get_service(name)
+        die! "Service #{name} doesn't exist: aborting" unless service.exists?
+        service
+      end
     end
   end
 end
