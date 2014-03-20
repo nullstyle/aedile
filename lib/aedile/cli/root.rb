@@ -10,8 +10,8 @@ module Aedile
         puts "TODO: show each service along with the services scale and actual running processes"
       end
 
-      desc "run", "starts running process that watches etcd for config changes and applies them"
-      def run
+      desc "manage", "starts running process that watches etcd for config changes and applies them"
+      def manage
         puts "TODO: watch for service changes"
         puts "TODO: push service changes through to fleet"
       end
