@@ -56,9 +56,28 @@ module Aedile
 
       desc "edit NAME", "opens config for NAME in current environment's editor for editing"
       def edit(name)
-        puts "TODO: load config from etcd"
-        puts "TODO: open an editor to change config"
-        puts "TODO: commit config to etcd if changed and not empty"
+        service = Aedile.client.get_service(name)
+        config  = service.config
+
+        result, new_config = *Util.edit_as_json(config)
+
+        case result
+        when :changed ;
+          service.set_config(new_config)
+          puts "Config for service #{name} updated"
+        when :canceled ;
+          puts "Edit canceled"
+          exit 1
+        when :unchanged ;
+          puts "Config for service #{name} unchanged: aborting"
+          exit 1
+        when :unparsable ;
+          edit(name) if yes?("Unparsable JSON, try again? (y/N)")
+          exit 1
+        else
+          puts "Unknown result: #{result}"
+          exit 1
+        end
       end
     end
   end
