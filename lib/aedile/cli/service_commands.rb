@@ -40,9 +40,8 @@ module Aedile
 
       desc "delete NAME", "deletes service NAME"
       def delete(name)
-        service = Aedile.client.get_service(name)
+        service = load_existing_service(name)
 
-        die! "Service #{name} doesn't exist: aborting" unless service.exists?        
         win! if no?("Are you sure you want to delete service #{name}? (y/N)")
 
         result  = service.delete
@@ -56,8 +55,7 @@ module Aedile
 
       desc "show NAME", "outputs the config for NAME to standard out"
       def show(name)
-        service = Aedile.client.get_service(name)
-        die! "Service #{name} doesn't exist: aborting" unless service.exists?
+        service = load_existing_service(name)
         config  = service.config
 
         puts Util.dump_json(config)
@@ -65,9 +63,7 @@ module Aedile
 
       desc "edit NAME", "opens config for NAME in current environment's editor for editing"
       def edit(name)
-        service = Aedile.client.get_service(name)
-
-        die! "Service #{name} doesn't exist: aborting" unless service.exists?
+        service = load_existing_service(name)
 
         config  = service.config
 
