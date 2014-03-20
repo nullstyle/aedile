@@ -21,5 +21,14 @@ module Aedile
         :already_exists
       end
     end
+
+    def delete
+      begin
+        @client.etcd.delete("/aedile/services/#{name}", recursive:true)
+        :deleted
+      rescue Etcd::KeyNotFound => e
+        :doesnt_exist
+      end
+    end
   end
 end

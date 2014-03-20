@@ -14,20 +14,36 @@ module Aedile
         # puts "TODO: ask for initial scale"
         # puts "TODO: set initial scale in etcd"
         service = Aedile.client.get_service(name)
-
-        case service.create({})
+        result  = service.create({})
+        case result
         when :created ;
           puts "Created service #{name}"
         when :already_exists ;
           puts "Service #{name} already exists"
+          exit 1
+        else
+          puts "Unknown result: #{result}"
           exit 1
         end
       end
 
       desc "delete NAME", "deletes service NAME"
       def delete(name)
-        puts "TODO: confirm deletion"
-        puts "TODO: delete service"
+        exit 0 if no?("Are you sure you want to delete service #{name}? (y/N)")
+
+        service = Aedile.client.get_service(name)
+        result  = service.delete
+
+        case result
+        when :deleted ;
+          puts "Deleted service #{name}"
+        when :doesnt_exist ;
+          puts "Service #{name} doesn't exist"
+          exit 1
+        else
+          puts "Unknown result: #{result}"
+          exit 1
+        end
       end
 
       desc "show NAME", "outputs the config for NAME to standard out"
