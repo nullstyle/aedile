@@ -9,6 +9,7 @@ module Aedile
   autoload :Cli
   autoload :Client
   autoload :Service
+  autoload :Util
 
   def self.client
     @client ||= Client.new
