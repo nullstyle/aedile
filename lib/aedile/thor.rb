@@ -17,7 +17,7 @@ module Aedile
     end
 
     def client
-      @client ||= Aedile::Client.new(options[:endpoint])
+      @client ||= Aedile::Client.new(options.slice(:endpoint, :tunnel))
     end
   end
 end

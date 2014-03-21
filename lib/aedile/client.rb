@@ -1,15 +1,17 @@
+require 'net/ssh/gateway'
+
 module Aedile
   class Client
     attr_reader :etcd
     
-    def initialize(endpoint)
-      uri = URI.parse(endpoint)
-      raise URI::InvalidURIError unless uri.is_a?(URI::HTTP)
+    def initialize(options={})
+      @options = options
+      setup_endpoint
+      setup_gateway
 
-      @etcd = Etcd.client(host: uri.host, port: uri.port)
+      endpoint_to_use = @tunnel_endpoint || @endpoint
 
-    rescue URI::InvalidURIError
-      raise ArgumentError, "Invalid endpoint '#{endpoint}': please supply a valid http uri"
+      @etcd = Etcd.client(host: endpoint_to_use.host, port: endpoint_to_use.port)
     end
 
     def services
@@ -45,5 +47,27 @@ module Aedile
       @processes[service] ||= {}
       @processes[service][index] ||= Process.new(self, service, index)
     end
+
+    private
+    def setup_endpoint
+      @endpoint = URI(@options[:endpoint])
+      raise URI::InvalidURIError unless @endpoint.is_a?(URI::HTTP)
+    rescue URI::InvalidURIError
+      raise ArgumentError, "Invalid endpoint '#{@options[:endpoint]}': please supply a valid http uri"
+    end
+
+    def setup_gateway
+      return if @options[:tunnel].blank?
+
+      @tunnel = URI("ssh://#{@options[:tunnel]}")
+      @tunnel.port ||= 22
+      @tunnel.user ||= `whoami`.strip
+
+      gateway = Net::SSH::Gateway.new(@tunnel.host, @tunnel.user, :port => @tunnel.port)
+      port = gateway.open('127.0.0.1', @endpoint.port)
+
+      @tunnel_endpoint = URI("http://127.0.0.1:#{port}")
+    end
+
   end
 end
