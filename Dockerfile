@@ -3,9 +3,17 @@ FROM ubuntu:13.10
 RUN apt-get update
 RUN apt-get install -y bundler
 RUN apt-get install -y git-core
-RUN mkdir /root/aedile
+RUN mkdir -p /root/aedile/lib/aedile
+
+# Add needed files for bundle install only 
+# this improves use of the docker build cache to speed up build times
+ADD ./Gemfile /root/aedile/Gemfile
+ADD ./Gemfile.lock /root/aedile/Gemfile.lock
+ADD ./aedile.gemspec /root/aedile/aedile.gemspec
+ADD ./lib/aedile/version.rb /root/aedile/lib/aedile/version.rb
+RUN cd /root/aedile && bundle --quiet
+
 ADD ./ /root/aedile
-RUN cd /root/aedile && bundle install --quiet
 
 CMD ["status"]
 WORKDIR /root/aedile
