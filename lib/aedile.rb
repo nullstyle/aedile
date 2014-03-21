@@ -17,4 +17,8 @@ module Aedile
   autoload :Service
   autoload :Process
 
+
+  class EtcdCannotBeContacted < StandardError ; end
+  class FleetCannotBeContacted < StandardError ; end
+
 end

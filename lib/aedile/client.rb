@@ -4,7 +4,8 @@ module Aedile
   class Client
     attr_reader :etcd
     attr_reader :fleetctl
-    
+
+
     def initialize(options={})
       @options = options
       setup_endpoint
@@ -14,6 +15,8 @@ module Aedile
 
       @etcd  = Etcd.client(host: endpoint_to_use.host, port: endpoint_to_use.port)
       @fleetctl = FleetCtl.new(@endpoint, @tunnel)
+
+      test_etcd_connection
     end
 
     def services
@@ -69,6 +72,12 @@ module Aedile
       port = gateway.open('127.0.0.1', @endpoint.port)
 
       @tunnel_endpoint = URI("http://127.0.0.1:#{port}")
+    end
+
+    def test_etcd_connection
+      @etcd.get("/")
+    rescue Errno::ECONNREFUSED
+      raise EtcdCannotBeContacted, "Cannot contact etcd at #{@endpoint}"
     end
 
   end
