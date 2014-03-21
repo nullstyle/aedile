@@ -3,6 +3,7 @@ require 'net/ssh/gateway'
 module Aedile
   class Client
     attr_reader :etcd
+    attr_reader :fleetctl
     
     def initialize(options={})
       @options = options
@@ -11,7 +12,8 @@ module Aedile
 
       endpoint_to_use = @tunnel_endpoint || @endpoint
 
-      @etcd = Etcd.client(host: endpoint_to_use.host, port: endpoint_to_use.port)
+      @etcd  = Etcd.client(host: endpoint_to_use.host, port: endpoint_to_use.port)
+      @fleetctl = FleetCtl.new(@endpoint, @tunnel)
     end
 
     def services
@@ -61,7 +63,7 @@ module Aedile
 
       @tunnel = URI("ssh://#{@options[:tunnel]}")
       @tunnel.port ||= 22
-      @tunnel.user ||= `whoami`.strip
+      @tunnel.user ||= "core"
 
       gateway = Net::SSH::Gateway.new(@tunnel.host, @tunnel.user, :port => @tunnel.port)
       port = gateway.open('127.0.0.1', @endpoint.port)

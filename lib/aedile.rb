@@ -11,6 +11,7 @@ module Aedile
   autoload :Thor
   autoload :Util
   autoload :Client
+  autoload :FleetCtl
 
   # "model" objects
   autoload :Service

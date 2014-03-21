@@ -1,5 +1,6 @@
 require 'tilt'
 require 'liquid'
+require 'tilt/liquid'
 
 module Aedile
   class Process
@@ -36,6 +37,13 @@ module Aedile
         UNIT: unit_name,
         STATUS: "up",
       }
+    end
+
+    def submit_unit
+      Dir.mktmpdir do |dir|
+        IO.write("#{dir}/#{unit_name}", unit_content)
+        @client.fleetctl.submit("#{dir}/#{unit_name}")
+      end
     end
 
     def fleet_status
