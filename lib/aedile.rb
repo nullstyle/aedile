@@ -16,7 +16,4 @@ module Aedile
   autoload :Service
   autoload :Process
 
-  def self.client
-    @client ||= Client.new
-  end
 end

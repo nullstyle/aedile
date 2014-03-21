@@ -5,13 +5,13 @@ module Aedile
 
       desc "list", "shows all known services"
       def list
-        Aedile.client.service_names.each{|s| puts s }
+        client.service_names.each{|s| puts s }
       end
 
       desc "new NAME", "creates a new service named NAME"
       def new(name)
 
-        service = Aedile.client.get_service(name)
+        service = client.get_service(name)
         die! "Service #{name} already exists: aborting" if service.exists?        
 
         result, new_config = *Util.edit_as_json(service.config)
@@ -104,7 +104,7 @@ module Aedile
 
       private
       def load_existing_service(name)
-        service = Aedile.client.get_service(name)
+        service = client.get_service(name)
         die! "Service #{name} doesn't exist: aborting" unless service.exists?
         service
       end

@@ -15,5 +15,9 @@ module Aedile
       puts message if message.present?
       exit 0
     end
+
+    def client
+      @client ||= Aedile::Client.new(options[:endpoint])
+    end
   end
 end

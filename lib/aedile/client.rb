@@ -2,8 +2,14 @@ module Aedile
   class Client
     attr_reader :etcd
     
-    def initialize
-      @etcd = Etcd.client
+    def initialize(endpoint)
+      uri = URI.parse(endpoint)
+      raise URI::InvalidURIError unless uri.is_a?(URI::HTTP)
+
+      @etcd = Etcd.client(host: uri.host, port: uri.port)
+
+    rescue URI::InvalidURIError
+      raise ArgumentError, "Invalid endpoint '#{endpoint}': please supply a valid http uri"
     end
 
     def services

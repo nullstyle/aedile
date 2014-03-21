@@ -3,6 +3,8 @@ module Aedile
     class RootCommands < ::Thor
       include Aedile::Thor
 
+      class_option :endpoint, :default => "http://127.0.0.1:4001"
+
       map "srv" => :service  
       
       desc "service SUBCOMMAND ...ARGS", "manage the set of services"
@@ -14,7 +16,7 @@ module Aedile
 
       desc "status", "shows aedile's status"
       def status
-        view Aedile.client.services.map(&:status_hash), class: :tab_table, fields: [:SERVICE, :STATUS]
+        view client.services.map(&:status_hash), class: :tab_table, fields: [:SERVICE, :STATUS]
       end
 
       desc "ps", "show processes"
