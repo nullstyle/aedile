@@ -106,6 +106,13 @@ The idea here would be to automate the selection of the "permanent home" for a s
 - rolling restart orchestration
 - continuous delivery
 
+
+### TODO
+
+1.  Replace thor with a homegrown system based on trollop.  The goal is to approach a symmetry with fleetctl and for that we need global options and dashed (i.e. list-services) for the command names.  This will be easier to do with trollop.
+2.  Get the manager working
+3.  Respond to errors better
+
 ## Contributing
 
 1. Fork it
