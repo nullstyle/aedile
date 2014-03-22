@@ -1,6 +1,31 @@
 # Aedile - simple PaaS on top of CoreOS and Fleet
 
-TODO: Write a description
+Aedile is a system to help you manage services running atop [CoreOS](https://coreos.com/) and [Fleet](https://github.com/coreos/fleet).  By defining services (and the docker containers that comprise a service) and setting scale, aedile will make sure to create and submit the appropriate unit files to fleet to run that many instances of the container across your cluster.
+
+Rather than tediously crafting a long and unwieldy command line string to launch a docker container from within fleet, aedile will create the commands for you from a simple json configuration file.
+
+```
+# The config file (for a service named `bash`):
+{
+  "image"  : "ubuntu",
+  "command": "/bin/bash"
+}
+
+# will expand to the unit
+[Unit]
+Description=aedile:bash.0
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker run ubuntu /bin/bash
+```
+
+Rather than creating 15 copies of your app server's unit file, simply define a service in aedile to use your appserver container and set the scale to fifteen; Aedile will handle the "instancing" of the service and submit all 15 copies of the unit to fleet
+
+## Status
+
+At this point, you can add,edit,delete and scale services and you can manually trigger the submission of unit files to fleetctl.  Lots more to go.
 
 ## Installation
 
@@ -11,10 +36,15 @@ Running this on a system that has ruby 1.9 or greater installed?:
 Running this on a system that has docker installed?:
 
     $ docker pull nullstyle/aedile
+    $ function aedile() { docker run -i -t --rm=true nullstyle/aedile $@; }
 
 ## Usage
 
-TODO: Write usage instructions here
+NOTE: this represented the indended cli and workflow... not everything works yet
+
+### Defining a service
+
+
 
 
 ## Tutorial - Hello World sinatra app
