@@ -36,14 +36,49 @@ Running this on a system that has ruby 1.9 or greater installed?:
 Running this on a system that has docker installed?:
 
     $ docker pull nullstyle/aedile
+    # add the following to your shell init files (.bashrc and the like) for ease of use
     $ function aedile() { docker run -i -t --rm=true nullstyle/aedile $@; }
 
 ## Usage
 
 NOTE: this represented the indended cli and workflow... not everything works yet
 
+### Global Options
+
+Aedile aims to provide a similar interface as fleetctl, and in that spirit we support two global options: `tunnel` and `endpoint`.
+use tunnel to ssh from your workstation into a coreos box to run commands, and use endpoint to manually configure the http address that etcd is listening at (we default to the CoreOS convention of `http://172.17.42.1:4001`)
+
 ### Defining a service
 
+The first step to working with aedile is to define a service.  You do this will the following command:
+
+```bash
+aedile service new NAME
+# example: aedile service new web
+```
+
+Running this command will open your local editor (as specified by your EDITOR environment variable) in which you can customize the docker image to run and what command to run within the image.
+
+### Setting a service's scale
+
+A new service initially has a scale of 0; That is, it will not be scheduled to run on any machines in your cluster.  By setting the scale to greater than zero, we can decide how many copies of the service we want to provide to fleet for scheduling.  You do this simply by:
+
+```bash
+aedile service scale NAME SCALE
+# example: aedile service scale web 4
+```
+
+### Running the aedile manager
+
+Most commands in aedile simply interact with etcd, getting and setting values into that system.  A manager process that runs within your cluster is where the magic happens.  It watches for changes to your aedile configuration and makes the appropriate commands against fleet to ensure your desired services are scheduled.  Change a services scale, and it sees the config change and adds the appropriate unit files to fleet, and so forth.
+
+Running a simple manager is as easy as:
+
+    aedile manage
+
+The command above runs a foreground instance of the manager that you can watch do its thing.  This is useful for learning how aedile works, but in the long run it makes more sense to hand the management of the manager (heh) off to fleet itself, like so:
+
+    aedile install_manager
 
 
 
