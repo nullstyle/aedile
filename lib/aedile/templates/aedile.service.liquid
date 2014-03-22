@@ -1,0 +1,8 @@
+# content for aedile manager unit
+[Unit]
+Description=aedile: manager
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker run --name=aedile --rm=true nullstyle/aedile manage

@@ -38,7 +38,8 @@ module Aedile
 
       desc "install_manager", "submit the aedile managers job to fleet"
       def install_manager
-        puts "TODO: render the unit file and submit it to fleet"
+        client.install_manager
+        win! "Aedile manager installed into fleet"
       end
     end
   end

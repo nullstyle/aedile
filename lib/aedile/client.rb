@@ -5,6 +5,8 @@ module Aedile
     attr_reader :etcd
     attr_reader :fleetctl
 
+    MANAGER_UNIT_TEMPLATE = Tilt.new(File.dirname(__FILE__) + '/templates/aedile.service.liquid')
+
 
     def initialize(options={})
       @options = options
@@ -51,6 +53,11 @@ module Aedile
       @processes ||= {}
       @processes[service] ||= {}
       @processes[service][index] ||= Process.new(self, service, index)
+    end
+
+    def install_manager
+      unit_content = MANAGER_UNIT_TEMPLATE.render
+      fleetctl.submit("aedile.service", unit_content)
     end
 
     private

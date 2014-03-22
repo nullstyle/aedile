@@ -3,6 +3,9 @@ require 'active_support'
 require 'active_support/core_ext/object/blank'
 require 'etcd'
 require 'multi_json'
+require 'tilt'
+require 'liquid'
+require 'tilt/liquid'
 
 module Aedile
   extend ActiveSupport::Autoload 

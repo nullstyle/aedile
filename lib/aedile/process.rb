@@ -1,7 +1,3 @@
-require 'tilt'
-require 'liquid'
-require 'tilt/liquid'
-
 module Aedile
   class Process
     UNIT_TEMPLATE = Tilt.new(File.dirname(__FILE__) + '/templates/unit.service.liquid')
