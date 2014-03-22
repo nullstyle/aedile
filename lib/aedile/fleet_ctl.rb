@@ -10,8 +10,8 @@ module Aedile
     end
 
     def submit(unit_name, unit_content)
-      unit_file = "#{dir}/#{unit_name}"
       Dir.mktmpdir do |dir|
+        unit_file = "#{dir}/#{unit_name}"
         IO.write(unit_file, unit_content)
         cmd = build_command("submit", unit_file)
         results =  `#{cmd}`
