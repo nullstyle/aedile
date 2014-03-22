@@ -30,6 +30,11 @@ module Aedile
         puts "TODO: watch for service changes"
         puts "TODO: push service changes through to fleet"
       end
+
+      desc "install_manager", "submit the aedile managers job to fleet"
+      def install_manager
+        puts "TODO: render the unit file and submit it to fleet"
+      end
     end
   end
 end
