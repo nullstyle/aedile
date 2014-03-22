@@ -40,10 +40,7 @@ module Aedile
     end
 
     def submit_unit
-      Dir.mktmpdir do |dir|
-        IO.write("#{dir}/#{unit_name}", unit_content)
-        @client.fleetctl.submit("#{dir}/#{unit_name}")
-      end
+      @client.fleetctl.submit(unit_name, unit_content)
     end
 
     def fleet_status

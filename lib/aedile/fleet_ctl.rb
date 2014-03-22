@@ -9,9 +9,13 @@ module Aedile
       @tunnel   = tunnel
     end
 
-    def submit(unit_file)
-      cmd = build_command("submit", unit_file)
-      results =  `#{cmd}`
+    def submit(unit_name, unit_content)
+      unit_file = "#{dir}/#{unit_name}"
+      Dir.mktmpdir do |dir|
+        IO.write(unit_file, unit_content)
+        cmd = build_command("submit", unit_file)
+        results =  `#{cmd}`
+      end 
     end
 
     private
