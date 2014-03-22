@@ -3,7 +3,7 @@ module Aedile
     class RootCommands < ::Thor
       include Aedile::Thor
 
-      class_option :endpoint, default: "http://127.0.0.1:4001"
+      class_option :endpoint, default: "http://172.17.42.1:4001"
       class_option :tunnel, type: :string
 
       map "srv" => :service  
