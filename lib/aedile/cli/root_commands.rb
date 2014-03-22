@@ -27,8 +27,13 @@ module Aedile
 
       desc "manage", "starts running process that watches etcd for config changes and applies them"
       def manage
-        puts "TODO: watch for service changes"
-        puts "TODO: push service changes through to fleet"
+        loop do
+          puts "TODO: watch for service changes"
+          puts "TODO: push service changes through to fleet"
+          sleep 1
+        end
+      rescue Interrupt
+        win! "Exiting..."
       end
 
       desc "install_manager", "submit the aedile managers job to fleet"
