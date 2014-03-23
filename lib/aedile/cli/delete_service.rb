@@ -6,13 +6,10 @@ module Aedile
         # TODO
         # win! if no?("Are you sure you want to delete service #{name}? (y/N)")
 
-        result  = service.delete
-
-        case result
-        when :deleted ;       puts "Deleted service #{name}"
-        when :doesnt_exist ;  raise "Service #{name} doesn't exist"
-        else ;                raise "Unknown result: #{result}"
-        end
+        service.delete
+        puts "Deleted service #{name}"
+      rescue Aedile::Service::NotFound ; 
+        raise "Service #{name} doesn't exist"
       end
       
     end

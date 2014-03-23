@@ -6,7 +6,7 @@ module Aedile
         name    = @args.first
         service = client.get_service(name)
 
-        raise "Service #{name} already exists" if service.exists?        
+        raise Aedile::Service::AlreadyExists if service.exists?        
 
         result, new_config = *Util.edit_as_json(service.config)
         case result
@@ -20,19 +20,13 @@ module Aedile
           raise "Unknown result: #{result}"
         end
 
-        result = service.create(new_config)
-        case result
-        when :created ;         
-          puts "Created service #{name}"
-        when :already_exists ;  
-          raise "Service #{name} already exists"
-        else ;                  
-          raise "Unknown result: #{result}"
-        end
-
+        service.create(new_config)
+        puts "Created service #{name}"
 
         # puts "TODO: ask for initial scale"
         # puts "TODO: set initial scale in etcd"
+      rescue Aedile::Service::AlreadyExists
+        raise "Service #{name} already exists"
       end
       
     end

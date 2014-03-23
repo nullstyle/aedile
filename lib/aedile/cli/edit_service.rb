@@ -9,14 +9,8 @@ module Aedile
 
         case result
         when :changed ;
-          set_result = service.set_config(new_config)
-
-          case set_result
-          when :updated ;         puts "Config for service #{name} updated"
-          when :invalid_config ;  raise "Config for service #{name} would become invalid"
-          else ;                  raise "Unknown result: #{set_result}"
-          end
-
+          service.set_config(new_config)
+          puts "Config for service #{name} updated"
         when :canceled ;
           raise "Edit canceled"
         when :unchanged ;
@@ -29,7 +23,9 @@ module Aedile
           raise "Unknown result: #{result}"
         end
       end
-      
+    
+    rescue Aedile::Service::InvalidConfig
+      raise "Config for service #{name} would become invalid"
     end
   end
 end

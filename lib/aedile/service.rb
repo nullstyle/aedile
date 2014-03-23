@@ -1,5 +1,10 @@
 module Aedile
   class Service
+
+    class AlreadyExists < StandardError; end
+    class NotFound < StandardError; end
+    class InvalidConfig < StandardError; end
+
     attr_reader :name
 
     DEFAULT_CONFIG = {
@@ -27,13 +32,12 @@ module Aedile
     end
 
     def set_config(config)
-      return :invalid_config if config[:image].blank?
+      raise InvalidConfig if config[:image].blank?
 
       config_json = Util.dump_json(config)
       @client.etcd.set(config_etcd_key, value:config_json, prevExist:true)
-      :updated
     rescue Etcd::KeyNotFound
-      :doesnt_exist
+      raise NotFound
     end
 
     def scale
@@ -56,18 +60,16 @@ module Aedile
 
       begin
         @client.etcd.set(config_etcd_key, value:config_json, prevExist:false)
-        :created
       rescue Etcd::NodeExist
-        :already_exists
+        raise AlreadyExists
       end
     end
 
     def delete
       begin
         @client.etcd.delete(etcd_key, recursive:true)
-        :deleted
       rescue Etcd::KeyNotFound
-        :doesnt_exist
+        raise NotFound
       end
     end
 
