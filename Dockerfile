@@ -16,4 +16,4 @@ ADD ./ /root/aedile
 
 CMD ["status"]
 WORKDIR /root/aedile
-ENTRYPOINT ["bundle", "exec", "bin/aedile"]
+ENTRYPOINT ["bundle", "exec", "bin/aedilectl"]
