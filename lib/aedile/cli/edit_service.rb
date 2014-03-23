@@ -4,28 +4,21 @@ module Aedile
 
       def run
         config  = service.config
+        new_config = Util.edit_as_json(config)
+        service.set_config(new_config)
+        puts "Config for service #{name} updated"
 
-        result, new_config = *Util.edit_as_json(config)
-
-        case result
-        when :changed ;
-          service.set_config(new_config)
-          puts "Config for service #{name} updated"
-        when :canceled ;
-          raise "Edit canceled"
-        when :unchanged ;
-          raise "Config for service #{name} unchanged"
-        when :unparsable ;
-          # TODO: ask and retry
-          # edit(name) if yes?("Unparsable JSON, try again? (y/N)")
-          raise "Unparseable JSON"
-        else
-          raise "Unknown result: #{result}"
-        end
+      rescue Aedile::Service::InvalidConfig
+        raise "Config for service #{name} would become invalid"
+      rescue Util::Unparsable
+        # TODO: ask and retry
+        # edit(name) if yes?("Unparsable JSON, try again? (y/N)")
+        raise "Unparsable JSON"
+      rescue Util::Canceled
+        raise "Edit canceled"
+      rescue Util::Unchanged
+        raise "Config for service #{name} unchanged"
       end
-    
-    rescue Aedile::Service::InvalidConfig
-      raise "Config for service #{name} would become invalid"
     end
   end
 end

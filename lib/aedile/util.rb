@@ -1,5 +1,11 @@
 module Aedile
   module Util
+
+    class NoEditor  < StandardError; end
+    class Unparsable  < StandardError; end
+    class Canceled    < StandardError; end
+    class Unchanged   < StandardError; end
+
     def dump_json(obj)
       MultiJson.dump(obj, :pretty => true)
     end
@@ -8,7 +14,9 @@ module Aedile
       MultiJson.load(json, :symbolize_keys => true)
     end
 
-    def edit_as_json(data)
+    def edit_as_json(data, options={})
+      options.reverse_merge!(error_on_unchanged: true)
+
       input  = dump_json(data).strip
       output = ""
 
@@ -16,17 +24,17 @@ module Aedile
         tf.sync = true
         tf.puts input
         tf.close
-        raise "Please set EDITOR environment variable" unless system("#{ENV["EDITOR"]} #{tf.path}")
+        raise NoEditor, "Please set EDITOR environment variable" unless system("#{ENV["EDITOR"]} #{tf.path}")
 
         output = IO.read(tf.path).strip
       end
 
-      return [:canceled, data]  if output.blank?
-      return [:unchanged, data] if input == output
+      raise Canceled  if output.blank?
+      raise Unchanged if input == output && options[:error_on_unchanged]
       
-      [:changed, load_json(output)]
+      load_json(output)
     rescue MultiJson::ParseError
-      [:unparsable, data]
+      raise Unparsable
     end
 
     extend self
