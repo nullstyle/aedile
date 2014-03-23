@@ -26,7 +26,7 @@ module Aedile
 
     def config
       config_json = @client.etcd.get(config_etcd_key).value
-      Util.load_json(config_json)
+      EditJson.load_json(config_json)
     rescue Etcd::KeyNotFound => e
       DEFAULT_CONFIG
     end
@@ -34,7 +34,7 @@ module Aedile
     def set_config(config)
       raise InvalidConfig if config[:image].blank?
 
-      config_json = Util.dump_json(config)
+      config_json = EditJson.dump_json(config)
       @client.etcd.set(config_etcd_key, value:config_json, prevExist:true)
     rescue Etcd::KeyNotFound
       raise NotFound
@@ -56,7 +56,7 @@ module Aedile
     end
 
     def create(initial_config={})
-      config_json = Util.dump_json(initial_config)
+      config_json = EditJson.dump_json(initial_config)
 
       begin
         @client.etcd.set(config_etcd_key, value:config_json, prevExist:false)

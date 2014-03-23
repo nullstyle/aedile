@@ -8,7 +8,7 @@ module Aedile
 
         raise Aedile::Service::AlreadyExists if service.exists?        
 
-        new_config = Util.edit_as_json(service.config, error_on_unchanged: false)
+        new_config = EditJson.edit_as_json(service.config, error_on_unchanged: false)
 
         service.create(new_config)
         puts "Created service #{name}"
@@ -17,11 +17,11 @@ module Aedile
         # puts "TODO: set initial scale in etcd"
       rescue Aedile::Service::AlreadyExists
         raise "Service #{name} already exists"
-      rescue Util::Unparsable
+      rescue EditJson::Unparsable
         # TODO: ask and retry
         # edit(name) if yes?("Unparsable JSON, try again? (y/N)")
         raise "Unparsable JSON"
-      rescue Util::Canceled
+      rescue EditJson::Canceled
         raise "Creation canceled"
       end
       

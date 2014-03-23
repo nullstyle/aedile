@@ -1,5 +1,5 @@
 module Aedile
-  module Util
+  module EditJson
 
     class NoEditor  < StandardError; end
     class Unparsable  < StandardError; end

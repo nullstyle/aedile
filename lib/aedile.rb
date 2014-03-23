@@ -13,7 +13,7 @@ module Aedile
   extend ActiveSupport::Autoload 
 
   autoload :Cli
-  autoload :Util
+  autoload :EditJson
   autoload :Client
   autoload :FleetCtl
 
