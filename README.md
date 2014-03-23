@@ -13,12 +13,15 @@ Rather than tediously crafting a long and unwieldy command line string to launch
 
 # will expand to the unit
 [Unit]
-Description=aedile:bash.0
+Description=aedile: bash.0.service
 After=docker.service
 Requires=docker.service
 
 [Service]
 ExecStart=/usr/bin/docker run ubuntu /bin/bash
+
+[X-Fleet]
+X-Conflicts=bash.*.service
 ```
 
 Rather than creating 15 copies of your app server's unit file, simply define a service in aedile to use your appserver container and set the scale to fifteen; Aedile will handle the "instancing" of the service and submit all 15 copies of the unit to fleet
