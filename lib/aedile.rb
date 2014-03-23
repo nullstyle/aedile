@@ -1,6 +1,7 @@
 require "aedile/version"
 require 'active_support'
 require 'active_support/core_ext/object/blank'
+require 'active_support/inflector'
 require 'etcd'
 require 'multi_json'
 require 'tilt'
@@ -11,7 +12,6 @@ module Aedile
   extend ActiveSupport::Autoload 
 
   autoload :Cli
-  autoload :Thor
   autoload :Util
   autoload :Client
   autoload :FleetCtl

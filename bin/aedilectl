@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+
+require 'aedile'
+require 'gli'
+
+include GLI::App
+
+program_desc 'command line interface to aedile'
+
+version Aedile::VERSION
+
+sort_help :manually
+
+desc          'Fleet Engine API endpoint (etcd)'
+default_value 'http://172.17.42.1:4001'
+arg_name      'URI'
+flag          [:endpoint]
+
+
+desc          'Establish an SSH tunnel through the provided address for communication with fleet and etcd.'
+arg_name      'HOST:IP'
+flag          [:tunnel]
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+def simple_command(*names, &block)
+  command *names do |cmd|
+    cmd.action do |global_options, command_options, args|
+      klass = "Aedile::Cli::#{cmd.name.to_s.underscore.camelize}".constantize
+      cmd = klass.new(global_options, command_options, args)
+      cmd.run
+    end
+    block.call cmd if block.present?
+  end
+end
+
+# root commands
+
+desc "shows aedile's status"
+simple_command "status"
+
+desc "starts running process that watches etcd for config changes and applies them"
+simple_command "manage"
+
+desc  "submit the aedile managers job to fleet"
+simple_command "install-manager"
+# service commands
+
+desc "shows all known services"
+simple_command "list-services"
+
+desc "creates a new service"
+arg_name "NAME"
+simple_command "new-service"
+
+desc "deletes service"
+arg_name "NAME"
+simple_command "delete-service"
+
+desc "outputs the config for NAME to standard out"
+arg_name "NAME"
+simple_command "show-service"
+
+desc "opens config for NAME in current environment's editor for editing"
+arg_name "NAME"
+simple_command "edit-service"
+ 
+desc "changes the scale of NAME to SCALE"
+arg_name "NAME SCALE", :multiple
+simple_command "scale-service"
+
+# process commands
+
+desc "show units for service NAME (or all services if NAME is unspecified)"
+arg_name "NAME", :optional
+simple_command ["list-units", "ps"]
+
+desc "show rendered unit content for UNIT_NAME"
+arg_name "UNIT_NAME"
+simple_command "show-unit"
+
+desc "submits the unit file for UNIT_NAME to fleet"
+arg_name "UNIT_NAME"
+simple_command "submit-unit"
+
+exit run(ARGV)

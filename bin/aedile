@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'aedile'
-
-Aedile::Cli::RootCommands.start
