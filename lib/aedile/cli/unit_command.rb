@@ -6,11 +6,11 @@ module Aedile
         @args.first
       end
 
-      def process
-        @process = begin
-          process = client.processes.find{|p| p.unit_name == unit_name}
-          raise "Could not find process #{unit_name}" if process.blank?
-          process
+      def unit
+        @unit = begin
+          unit = client.units.find{|p| p.unit_name == unit_name}
+          raise "Could not find unit #{unit_name}" if unit.blank?
+          unit
         end
       end
       

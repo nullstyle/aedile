@@ -1,5 +1,5 @@
 module Aedile
-  class Process
+  class Unit
     UNIT_TEMPLATE = Tilt.new(File.dirname(__FILE__) + '/templates/unit.service.liquid')
 
     attr_reader :service

@@ -73,7 +73,7 @@ desc "changes the scale of NAME to SCALE"
 arg_name "NAME SCALE", :multiple
 simple_command "scale-service"
 
-# process commands
+# unit commands
 
 desc "show units for service NAME (or all services if NAME is unspecified)"
 arg_name "NAME", :optional

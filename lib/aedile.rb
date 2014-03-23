@@ -18,7 +18,7 @@ module Aedile
 
   # "model" objects
   autoload :Service
-  autoload :Process
+  autoload :Unit
 
 
   class EtcdCannotBeContacted < StandardError ; end

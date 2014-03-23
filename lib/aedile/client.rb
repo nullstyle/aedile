@@ -25,12 +25,12 @@ module Aedile
       service_names.map{|name| get_service(name) }
     end
 
-    def processes(service=nil)
+    def units(service=nil)
       services = service.present? ? [service] : self.services
 
       services.each_with_object([]) do |service, result|
         service.scale.times do |i|
-          result << get_process(service, i)
+          result << get_unit(service, i)
         end
       end
     end
@@ -49,10 +49,10 @@ module Aedile
       @services[name] ||= Service.new(self, name)
     end
 
-    def get_process(service, index)
-      @processes ||= {}
-      @processes[service] ||= {}
-      @processes[service][index] ||= Process.new(self, service, index)
+    def get_unit(service, index)
+      @unit ||= {}
+      @unit[service] ||= {}
+      @unit[service][index] ||= Unit.new(self, service, index)
     end
 
     def install_manager

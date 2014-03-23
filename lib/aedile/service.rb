@@ -47,8 +47,8 @@ module Aedile
       @client.etcd.set(scale_etcd_key, value:new_scale)
     end
 
-    def processes
-      @client.processes(self)
+    def units
+      @client.units(self)
     end
 
     def create(initial_config={})
@@ -82,7 +82,7 @@ module Aedile
     def status_hash
       {
         SERVICE: name,
-        STATUS: "3 processes running (5 desired)",
+        STATUS: "3 instances running (5 desired)",
       }
     end
 

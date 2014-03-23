@@ -3,7 +3,7 @@ module Aedile
     class SubmitUnit < UnitCommand
 
       def run
-        process.submit_unit
+        unit.submit_unit
         puts "#{unit_name} submitted to fleet"
       end
       
