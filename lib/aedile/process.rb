@@ -15,6 +15,10 @@ module Aedile
       "#{@service.name}.#{@index}.service"
     end
 
+    def conflict_names
+      "#{@service.name}.*.service"
+    end
+
     def description
       "aedile: #{unit_name}"
     end
@@ -22,6 +26,7 @@ module Aedile
     def unit_content
       UNIT_TEMPLATE.render(
         name:unit_name,
+        conflict_names: conflict_names,
         description: description, 
         image: service.image, 
         command: service.command

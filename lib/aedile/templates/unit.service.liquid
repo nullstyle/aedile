@@ -6,3 +6,6 @@ Requires=docker.service
 
 [Service]
 ExecStart=/usr/bin/docker run {{image}} {{command}}
+
+[X-Fleet]
+X-Conflicts={{conflict_names}}
