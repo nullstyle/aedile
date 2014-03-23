@@ -53,7 +53,7 @@ use tunnel to ssh from your workstation into a coreos box to run commands, and u
 The first step to working with aedile is to define a service.  You do this will the following command:
 
 ```bash
-aedile service new NAME
+aedile new-service NAME
 # example: aedile service new web
 ```
 
@@ -64,7 +64,7 @@ Running this command will open your local editor (as specified by your EDITOR en
 A new service initially has a scale of 0; That is, it will not be scheduled to run on any machines in your cluster.  By setting the scale to greater than zero, we can decide how many copies of the service we want to provide to fleet for scheduling.  You do this simply by:
 
 ```bash
-aedile service scale NAME SCALE
+aedile scale-service NAME SCALE
 # example: aedile service scale web 4
 ```
 
@@ -78,7 +78,7 @@ Running a simple manager is as easy as:
 
 The command above runs a foreground instance of the manager that you can watch do its thing.  This is useful for learning how aedile works, but in the long run it makes more sense to hand the management of the manager (heh) off to fleet itself, like so:
 
-    aedile install_manager
+    aedile install-manager
 
 
 
