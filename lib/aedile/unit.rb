@@ -46,7 +46,8 @@ module Aedile
 
     def submit
       @client.fleetctl.submit(unit_name, unit_content)
-      start
+    rescue FleetCtl::SubmitFailed => e
+      raise unless e.message =~ /Key already exists/
     end
 
     def destroy
@@ -54,8 +55,11 @@ module Aedile
     end
 
     def sync
+
       # TODO: if exists, destroy and submit/start if changes
       # TODO: else submit/enable
+      submit
+      start
     end
 
     def fleet_status

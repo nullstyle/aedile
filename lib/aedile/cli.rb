@@ -23,6 +23,7 @@ module Aedile
     autoload :UnitCommand
     autoload :ShowUnit
     autoload :SubmitUnit
+    autoload :DestroyUnit
 
 
 

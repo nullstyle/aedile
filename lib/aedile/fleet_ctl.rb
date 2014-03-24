@@ -26,7 +26,7 @@ module Aedile
       `#{cmd}`
     end
 
-    def start
+    def start(unit_name)
       cmd = build_command("start", unit_name)
       `#{cmd}`
     end

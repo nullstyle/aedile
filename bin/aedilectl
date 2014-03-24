@@ -87,4 +87,9 @@ desc "submits the unit file for UNIT_NAME to fleet"
 arg_name "UNIT_NAME"
 simple_command "submit-unit"
 
+
+desc "destroy the unit file for UNIT_NAME in fleet, or * to destroy all units"
+arg_name "UNIT_NAME"
+simple_command "destroy-unit"
+
 exit run(ARGV)
