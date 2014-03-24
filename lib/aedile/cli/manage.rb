@@ -4,8 +4,8 @@ module Aedile
 
       def run
         loop do
-          response = client.etcd.watch("/aedile", recursive:true)
-          p response
+          client.etcd.watch("/aedile", recursive:true)
+          client.sync_with_fleet
         end
       rescue Interrupt
         puts "Exiting..."

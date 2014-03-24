@@ -40,8 +40,22 @@ module Aedile
       }
     end
 
-    def submit_unit
+    def start
+      @client.fleetctl.start(unit_name)
+    end
+
+    def submit
       @client.fleetctl.submit(unit_name, unit_content)
+      start
+    end
+
+    def destroy
+      @client.fleetctl.destroy(unit_name)
+    end
+
+    def sync
+      # TODO: if exists, destroy and submit/start if changes
+      # TODO: else submit/enable
     end
 
     def fleet_status

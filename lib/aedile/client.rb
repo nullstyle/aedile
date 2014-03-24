@@ -60,6 +60,12 @@ module Aedile
       fleetctl.submit("aedile.service", unit_content)
     end
 
+    def sync_with_fleet
+      units.each(&:sync)
+
+      puts "TODO: remove any deleted units"
+    end
+
     private
     def setup_endpoint
       @endpoint = URI(@options[:endpoint])

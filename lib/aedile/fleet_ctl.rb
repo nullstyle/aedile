@@ -21,6 +21,16 @@ module Aedile
       end 
     end
 
+    def destroy(unit_name)
+      cmd = build_command("destroy", unit_name)
+      `#{cmd}`
+    end
+
+    def start
+      cmd = build_command("start", unit_name)
+      `#{cmd}`
+    end
+
     private
     def build_command(*args)
       command_options = args.extract_options!
