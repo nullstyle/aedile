@@ -113,7 +113,7 @@ The idea here would be to automate the selection of the "permanent home" for a s
 ### TODO
 
 1.  Get the manager working
-1.  Respond to errors better
+1.  manager needs to flush the memoized data on each run
 
 ## Contributing
 

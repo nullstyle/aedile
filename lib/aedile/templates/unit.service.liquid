@@ -8,4 +8,4 @@ Requires=docker.service
 ExecStart=/usr/bin/docker run {{image}} {{command}}
 
 [X-Fleet]
-X-Conflicts={{conflict_names}}
+X-Conflicts={{conflict_glob}}

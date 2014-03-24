@@ -55,6 +55,11 @@ module Aedile
       @client.units(self)
     end
 
+
+    def conflict_glob
+      "#{name}.*.service"
+    end
+
     def create(initial_config={})
       config_json = EditJson.dump_json(initial_config)
 
