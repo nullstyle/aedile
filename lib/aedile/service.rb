@@ -9,7 +9,7 @@ module Aedile
 
     DEFAULT_CONFIG = {
       image:   "ubuntu",
-      command: "/bin/bash",
+      command: "/bin/bash -c 'while true; do echo Hello World; sleep 1; done'",
     }
 
     def initialize(client, name)
