@@ -3,6 +3,8 @@ require 'net/ssh/gateway'
 module Aedile
   class FleetCtl
     BIN = 'fleetctl'
+
+    class SubmitFailed < StandardError ; end
    
     def initialize(endpoint, tunnel)
       @endpoint = endpoint
@@ -15,6 +17,7 @@ module Aedile
         IO.write(unit_file, unit_content)
         cmd = build_command("submit", unit_file)
         results =  `#{cmd}`
+        raise SubmitFailed, results if results =~ /failed/
       end 
     end
 
