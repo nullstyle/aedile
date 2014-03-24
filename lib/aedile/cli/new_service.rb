@@ -6,7 +6,7 @@ module Aedile
         name    = @args.first
         service = client.get_service(name)
 
-        raise Aedile::Service::AlreadyExists if service.exists?        
+        raise Service::AlreadyExists if service.exists?        
 
         new_config = EditJson.edit_as_json(service.config, error_on_unchanged: false)
 
@@ -15,7 +15,7 @@ module Aedile
 
         # puts "TODO: ask for initial scale"
         # puts "TODO: set initial scale in etcd"
-      rescue Aedile::Service::AlreadyExists
+      rescue Service::AlreadyExists
         raise "Service #{name} already exists"
       rescue EditJson::Unparsable
         # TODO: ask and retry

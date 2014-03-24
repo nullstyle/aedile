@@ -8,7 +8,7 @@ module Aedile
         service.set_config(new_config)
         puts "Config for service #{name} updated"
 
-      rescue Aedile::Service::InvalidConfig
+      rescue Service::InvalidConfig
         raise "Config for service #{name} would become invalid"
       rescue EditJson::Unparsable
         # TODO: ask and retry

@@ -8,7 +8,7 @@ module Aedile
 
         service.delete
         puts "Deleted service #{name}"
-      rescue Aedile::Service::NotFound ; 
+      rescue Service::NotFound ; 
         raise "Service #{name} doesn't exist"
       end
       
