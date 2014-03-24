@@ -11,9 +11,7 @@ module Aedile
       rescue Service::InvalidConfig
         raise "Config for service #{name} would become invalid"
       rescue EditJson::Unparsable
-        # TODO: ask and retry
-        # edit(name) if yes?("Unparsable JSON, try again? (y/N)")
-        raise "Unparsable JSON"
+        raise "Edit aborted"
       rescue EditJson::Canceled
         raise "Edit canceled"
       rescue EditJson::Unchanged

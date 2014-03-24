@@ -34,7 +34,12 @@ module Aedile
       
       load_json(output)
     rescue MultiJson::ParseError
-      raise Unparsable
+      if agree("Unparsable JSON, try again? (y/n)")
+        retry
+      else
+        raise Unparsable
+      end
+      
     end
 
     extend self
