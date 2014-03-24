@@ -18,9 +18,11 @@ module Aedile
       rescue Service::AlreadyExists
         raise "Service #{name} already exists"
       rescue EditJson::Unparsable
-        # TODO: ask and retry
-        # edit(name) if yes?("Unparsable JSON, try again? (y/N)")
-        raise "Unparsable JSON"
+        if agree("Unparsable JSON, try again? (y/n)")
+          retry
+        else
+          raise "aborting"
+        end
       rescue EditJson::Canceled
         raise "Creation canceled"
       end
