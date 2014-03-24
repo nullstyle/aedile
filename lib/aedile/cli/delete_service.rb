@@ -4,7 +4,7 @@ module Aedile
 
       def run
         # TODO
-        # win! if no?("Are you sure you want to delete service #{name}? (y/N)")
+        return if !agree("Are you sure you want to delete service #{name}? (y/n)")
 
         service.delete
         puts "Deleted service #{name}"

@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "liquid",           "~> 2.6.1"
   spec.add_dependency "net-ssh-gateway",  "~> 1.2.0"
   spec.add_dependency "gli",              "~> 2.9.0"
+  spec.add_dependency "highline",         "~> 1.6.21"
 end

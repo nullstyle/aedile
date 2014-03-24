@@ -1,11 +1,11 @@
 require 'hirb'
+require 'highline/import'
 require 'tempfile'
 
 module Aedile
   module Cli
     class Base
       include Hirb::Console
-
 
       def initialize(global_options, command_options, args)
         @global_options  = global_options
