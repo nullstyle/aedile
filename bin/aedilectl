@@ -43,6 +43,9 @@ end
 desc "shows aedile's status"
 simple_command "status"
 
+desc "start a ruby console in the context of an aedilectl command"
+simple_command "console"
+
 desc "starts running process that watches etcd for config changes and applies them"
 simple_command "manage"
 

@@ -4,6 +4,7 @@ module Aedile
 
     autoload :Base
 
+    autoload :Console
     autoload :Status
 
     autoload :Manage
