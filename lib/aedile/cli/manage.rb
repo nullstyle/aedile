@@ -4,12 +4,17 @@ module Aedile
 
       def run
         loop do
-          puts "TODO: watch for service changes"
-          puts "TODO: push service changes through to fleet"
-          sleep 1
+          response = client.etcd.watch("/aedile", recursive:true)
+          p response
         end
       rescue Interrupt
         puts "Exiting..."
+      end
+
+
+      private
+      def apply_changes
+        puts "TODO: push service changes through to fleet"
       end
     end
 
