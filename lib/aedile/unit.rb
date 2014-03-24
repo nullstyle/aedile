@@ -23,6 +23,10 @@ module Aedile
       "aedile: #{unit_name}"
     end
 
+    def fleet?
+      @client.fleetctl.exists?(unit_name)
+    end
+
     def unit_content
       UNIT_TEMPLATE.render(
         name:unit_name,

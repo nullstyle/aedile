@@ -55,6 +55,9 @@ module Aedile
       @client.units(self)
     end
 
+    def units_in_fleet
+      @units_in_fleet = @client.fleetctl.units.select{|u| File.fnmatch(conflict_glob, u)}
+    end
 
     def conflict_glob
       "#{name}.*.service"

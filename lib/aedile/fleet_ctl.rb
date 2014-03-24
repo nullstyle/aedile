@@ -31,6 +31,17 @@ module Aedile
       `#{cmd}`
     end
 
+    def exists?(unit_name)
+      run_command("cat", unit_name)
+      $?.success?
+    end
+
+    def units
+      result = run_command("list-units", "--no-legend", "-l")
+
+      result.split("\n").map{|line| line.split("\t").first}
+    end
+
     private
     def build_command(*args)
       command_options = args.extract_options!
@@ -41,6 +52,11 @@ module Aedile
       command_options.each{|arg,value| cmd << %Q|--#{arg}="#{value}"|}
 
       cmd.join(" ")
+    end
+
+    def run_command(*args)
+      cmd = build_command(*args)
+      `#{cmd}`
     end
 
     def global_args
