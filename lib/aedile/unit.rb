@@ -28,13 +28,13 @@ module Aedile
     end
 
     def unit_content
-      UNIT_TEMPLATE.render(
+      UNIT_TEMPLATE.render(Object.new, {
         name:unit_name,
         conflict_glob: conflict_glob,
         description: description, 
         image: service.image, 
         command: service.command
-      )
+      })
     end
 
     def status_hash
@@ -59,7 +59,6 @@ module Aedile
     end
 
     def sync
-
       # TODO: if exists, destroy and submit/start if changes
       # TODO: else submit/enable
       submit
