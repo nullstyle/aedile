@@ -4,8 +4,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 
 # install fleetctl
-RUN apt-get install -y wget
-RUN cd /root && wget https://github.com/coreos/fleet/releases/download/v0.1.4/fleet-v0.1.4-linux-amd64.tar.gz
+RUN apt-get install -y wget ca-certificates
+RUN cd /root && wget -q https://github.com/coreos/fleet/releases/download/v0.1.4/fleet-v0.1.4-linux-amd64.tar.gz
 RUN cd /root && tar -xzf fleet-v0.1.4-linux-amd64.tar.gz
 RUN mv /root/fleet-v0.1.4-linux-amd64/fleetctl /usr/local/bin
 
