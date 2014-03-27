@@ -66,7 +66,7 @@ module Aedile
     end
 
     def sync_with_fleet
-      puts "Syncing with fleet..."
+      puts "=> Syncing with fleet:"
       to_sync = units
       
       fleet_unit_names = services.flat_map(&:units_in_fleet)
@@ -85,11 +85,11 @@ module Aedile
       end
       
     rescue => e
-      puts "Sync with fleet errored:"
+      puts "=> Sync with fleet errored:"
       puts e.message
       puts e.backtrace
     else
-      puts "Sync with fleet successful!"
+      puts "=> Sync with fleet successful!"
     end
 
     private
