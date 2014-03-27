@@ -61,9 +61,30 @@ module Aedile
     end
 
     def sync_with_fleet
-      units.each(&:sync)
-
-      puts "TODO: remove any deleted units"
+      puts "Syncing with fleet..."
+      to_sync = units
+      
+      fleet_unit_names = services.flat_map(&:units_in_fleet)
+      valid_unit_names = units.map(&:unit_name)
+      units_to_delete  = fleet_unit_names - valid_unit_names
+      
+      
+      units.each do |unit|
+        puts "  syncing #{unit.unit_name}"
+        unit.sync
+      end
+      
+      units_to_delete.each do |unit_name|
+        puts "  deleting #{unit_name}"
+        fleetctl.destroy(unit_name)
+      end
+      
+    rescue => e
+      puts "Sync with fleet errored:"
+      puts e.message
+      puts e.backtrace
+    else
+      puts "Sync with fleet successful!"
     end
 
     private
