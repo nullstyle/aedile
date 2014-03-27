@@ -51,6 +51,10 @@ simple_command "manage"
 
 desc  "submit the aedile managers job to fleet"
 simple_command "install-manager"
+
+desc  "removes the aedile managers job from fleet"
+simple_command "uninstall-manager"
+
 # service commands
 
 desc "shows all known services"

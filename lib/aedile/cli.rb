@@ -9,6 +9,7 @@ module Aedile
 
     autoload :Manage
     autoload :InstallManager
+    autoload :UninstallManager
 
     autoload :ListServices
 

@@ -60,6 +60,10 @@ module Aedile
       fleetctl.submit("aedile.service", unit_content)
       fleetctl.start("aedile.service")
     end
+    
+    def uninstall_manager
+      fleetctl.destroy("aedile.service")
+    end
 
     def sync_with_fleet
       puts "Syncing with fleet..."
