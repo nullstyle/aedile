@@ -4,7 +4,7 @@ module Aedile
 
       def run
         require 'pry'
-        binding.pry
+        Pry.start client, prompt:[proc{ ">> " }, proc{ "|  " }]
       end
       
     end
