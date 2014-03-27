@@ -58,6 +58,7 @@ module Aedile
     def install_manager
       unit_content = MANAGER_UNIT_TEMPLATE.render
       fleetctl.submit("aedile.service", unit_content)
+      fleetctl.start("aedile.service")
     end
 
     def sync_with_fleet
