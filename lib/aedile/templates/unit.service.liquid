@@ -5,7 +5,9 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-ExecStart=/usr/bin/docker run {{image}} {{command}}
+ExecStartPre=/usr/bin/docker rm {{name}}
+ExecStart=/usr/bin/docker run --name={{name}} {{image}} {{command}}
+ExecStop=/usr/bin/docker kill {{name}}
 
 [X-Fleet]
 X-Conflicts={{conflict_glob}}
