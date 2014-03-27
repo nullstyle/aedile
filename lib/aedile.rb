@@ -16,6 +16,7 @@ module Aedile
   autoload :EditJson
   autoload :Client
   autoload :FleetCtl
+  autoload :DockerUtil
 
   # "model" objects
   autoload :Service

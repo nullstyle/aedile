@@ -4,6 +4,7 @@ require 'aedile'
 require 'gli'
 
 include GLI::App
+include Aedile::DockerUtil
 
 program_desc 'command line interface to aedile'
 
@@ -12,7 +13,7 @@ version Aedile::VERSION
 sort_help :manually
 
 desc          'Fleet Engine API endpoint (etcd)'
-default_value 'http://172.17.42.1:4001'
+default_value(in_container? ? 'http://172.17.42.1:4001' : 'http://127.0.0.1:4001')
 arg_name      'URI'
 flag          [:endpoint]
 
