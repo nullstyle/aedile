@@ -114,6 +114,7 @@ The idea here would be to automate the selection of the "permanent home" for a s
 
 1.  Get the manager working
 1.  manager needs to flush the memoized data on each run
+1.  Timeouts on communicating with etcd and fleet
 
 ## Contributing
 
