@@ -73,7 +73,7 @@ arg_name "NAME"
 simple_command "edit-service"
  
 desc "changes the scale of NAME to SCALE"
-arg_name "NAME SCALE", :multiple
+arg_name "NAME=SCALE", :multiple
 simple_command "scale-service"
 
 # unit commands

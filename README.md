@@ -67,8 +67,8 @@ Running this command will open your local editor (as specified by your EDITOR en
 A new service initially has a scale of 0; That is, it will not be scheduled to run on any machines in your cluster.  By setting the scale to greater than zero, we can decide how many copies of the service we want to provide to fleet for scheduling.  You do this simply by:
 
 ```bash
-aedile scale-service NAME SCALE
-# example: aedile service scale web 4
+aedile scale-service NAME=SCALE [...]
+# example: aedile service scale web=4
 ```
 
 ### Running the aedile manager

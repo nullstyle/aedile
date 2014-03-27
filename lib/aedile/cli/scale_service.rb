@@ -1,11 +1,27 @@
 module Aedile
   module Cli
-    class ScaleService < ServiceCommand
+    class ScaleService < Base
 
       def run
-        new_scale = Integer(@args[1])
-        service.set_scale(new_scale)
-        puts "scale for service #{name} set to #{new_scale}"
+        @args.each{ |s| scale_service(s) }
+      end
+
+      private
+      def scale_service(arg)
+        
+        name, scale = arg.split("=", 2)
+        scale       = Integer(scale)
+        
+        service = client.get_service(name)
+
+        unless service.exists?
+          puts "error: service #{name} doesn't exist"
+          return
+        end
+
+        service.set_scale(scale)
+
+        puts "scale for service #{name} set to #{scale}"
       end
       
     end
