@@ -5,6 +5,7 @@ After=docker.service
 Requires=docker.service
 
 [Service]
+ExecStartPre=-/usr/bin/docker pull nullstyle/aedile
 ExecStartPre=-/usr/bin/docker rm aedile
 ExecStart=/usr/bin/docker run --name=aedile nullstyle/aedile manage
 ExecStop=/usr/bin/docker kill aedile
