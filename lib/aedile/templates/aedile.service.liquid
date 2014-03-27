@@ -5,4 +5,7 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-ExecStart=/usr/bin/docker run --name=aedile --rm=true nullstyle/aedile manage
+ExecStartPre=-/usr/bin/docker rm aedile
+ExecStart=/usr/bin/docker run --name=aedile nullstyle/aedile manage
+ExecStop=/usr/bin/docker kill aedile
+Restart=on-failure
