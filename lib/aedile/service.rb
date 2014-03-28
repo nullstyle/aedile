@@ -7,10 +7,12 @@ module Aedile
 
     attr_reader :name
 
-    DEFAULT_CONFIG = {
-      image:   "ubuntu",
-      command: "/bin/bash -c 'while true; do echo Hello World; sleep 1; done'",
+    DEFAULT_CONFIG_JSON = <<-JSON.strip_heredoc
+    {
+      "image":   "ubuntu",
+      "command": "/bin/bash -c 'while true; do echo Hello World; sleep 1; done'"
     }
+    JSON
 
     def initialize(client, name)
       @client = client
@@ -25,17 +27,16 @@ module Aedile
     end
 
     def config
-      config_json = @client.etcd.get(config_etcd_key).value
-      EditJson.load_json(config_json)
+      @config ||= ServiceConfig.new(@client.etcd.get(config_etcd_key).value)
     rescue Etcd::KeyNotFound => e
-      DEFAULT_CONFIG
+      @config = ServiceConfig.new(DEFAULT_CONFIG_JSON)
     end
 
     def set_config(config)
-      raise InvalidConfig if config[:image].blank?
+      @config = config
+      raise InvalidConfig if config.hash[:image].blank?
 
-      config_json = EditJson.dump_json(config)
-      @client.etcd.set(config_etcd_key, value:config_json, prevExist:true)
+      @client.etcd.set(config_etcd_key, value:config.json, prevExist:true)
     rescue Etcd::KeyNotFound
       raise NotFound
     end
@@ -63,14 +64,10 @@ module Aedile
       "#{name}.*.service"
     end
 
-    def create(initial_config={})
-      config_json = EditJson.dump_json(initial_config)
-
-      begin
-        @client.etcd.set(config_etcd_key, value:config_json, prevExist:false)
-      rescue Etcd::NodeExist
-        raise AlreadyExists
-      end
+    def create(initial_config)
+      @client.etcd.set(config_etcd_key, value:initial_config.json, prevExist:false)
+    rescue Etcd::NodeExist
+      raise AlreadyExists
     end
 
     def delete
@@ -82,11 +79,11 @@ module Aedile
     end
 
     def image
-      config[:image]
+      config.hash[:image]
     end
 
     def command
-      config[:command]
+      config.hash[:command]
     end
 
     def status_hash

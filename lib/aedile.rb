@@ -1,6 +1,7 @@
 require "aedile/version"
 require 'active_support'
 require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/string/strip'
 require 'active_support/core_ext/hash'
 require 'active_support/inflector'
 require 'etcd'
@@ -21,6 +22,7 @@ module Aedile
 
   # "model" objects
   autoload :Service
+  autoload :ServiceConfig
   autoload :Unit
 
 

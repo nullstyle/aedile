@@ -8,7 +8,7 @@ module Aedile
 
         raise Service::AlreadyExists if service.exists?        
 
-        new_config = EditJson.edit_as_json(service.config, error_on_unchanged: false)
+        new_config = ServiceConfig.from_edit(service.config, error_on_unchanged: false)
 
         service.create(new_config)
         puts "Created service #{name}"

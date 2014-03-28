@@ -14,10 +14,10 @@ module Aedile
       MultiJson.load(json, :symbolize_keys => true)
     end
 
-    def edit_as_json(data, options={})
+    def edit_as_json(json, options={})
       options.reverse_merge!(error_on_unchanged: true)
 
-      input  = dump_json(data).strip
+      input  = json
       output = ""
 
       Tempfile.open([ 'aedile-edit-', '.json' ]) do |tf|
@@ -32,7 +32,8 @@ module Aedile
       raise Canceled  if output.blank?
       raise Unchanged if input == output && options[:error_on_unchanged]
       
-      load_json(output)
+      load_json(output) # sanity parse used to check for valid json
+      output
     rescue MultiJson::ParseError
       if agree("Unparsable JSON, try again? (y/n)")
         retry

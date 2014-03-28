@@ -3,9 +3,9 @@ module Aedile
     class EditService < ServiceCommand
 
       def run
-        config  = service.config
-        new_config = EditJson.edit_as_json(config)
+        new_config = ServiceConfig.from_edit(service.config)
         service.set_config(new_config)
+
         puts "Config for service #{name} updated"
 
       rescue Service::InvalidConfig
