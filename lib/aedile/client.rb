@@ -7,6 +7,7 @@ module Aedile
 
     MANAGER_UNIT_TEMPLATE = Tilt.new(File.dirname(__FILE__) + '/templates/aedile.service.liquid')
 
+    include HasConsole
 
     def initialize(options={})
       @options = options
@@ -66,7 +67,8 @@ module Aedile
     end
 
     def sync_with_fleet
-      puts "=> Syncing with fleet:"
+      console.sync_started
+
       to_sync = units
       
       fleet_unit_names = services.flat_map(&:units_in_fleet)
@@ -75,21 +77,19 @@ module Aedile
       
       
       units.each do |unit|
-        puts "  syncing #{unit.unit_name}"
+        console.unit_sync_started unit.unit_name
         unit.sync
       end
       
       units_to_delete.each do |unit_name|
-        puts "  deleting #{unit_name}"
+        console.unit_delete_started unit_name
         fleetctl.destroy(unit_name)
       end
       
     rescue => e
-      puts "=> Sync with fleet errored:"
-      puts e.message
-      puts e.backtrace
+      console.sync_errored e
     else
-      puts "=> Sync with fleet successful!"
+      console.sync_successful
     end
 
     private

@@ -26,6 +26,11 @@ module Aedile
   autoload :Unit
 
 
+  # Console
+  autoload :Console
+  autoload :HasConsole
+
+
   class EtcdCannotBeContacted < StandardError ; end
   class FleetCannotBeContacted < StandardError ; end
 
