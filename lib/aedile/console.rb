@@ -7,7 +7,7 @@ module Aedile
 
     include Hirb::Console
 
-    # sync related outputs
+    # sync related messages
     def sync_started
       puts "=> Syncing with fleet:"
     end
@@ -30,7 +30,7 @@ module Aedile
       puts "  deleting #{unit_name}"
     end
 
-    # service commands
+    # service messages
 
     def confirm_service_delete(service)
       agree("Are you sure you want to delete service #{service.name}? (y/n)")
@@ -44,5 +44,10 @@ module Aedile
       raise "Service '#{name}' doesn't exist"
     end
 
+
+    # unit messages
+    def unit_not_found(name)
+      raise "Unit '#{name}' doesn't exist"
+    end
   end
 end
