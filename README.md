@@ -28,7 +28,7 @@ Rather than creating 15 copies of your app server's unit file, simply define a s
 
 ## Status
 
-At this point, you can add,edit,delete and scale services and the manager process will naively just submit units to fleet.  The manager does not properyly delete or update unit files
+At this point, you can add,edit,delete and scale services and the manager process will naively just submit units to fleet.  The manager does not properyly update unit files
 
 ## Installation
 
