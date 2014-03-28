@@ -6,6 +6,7 @@ module Aedile
   module Cli
     class Base
       include Hirb::Console
+      include HasConsole
 
       def initialize(global_options, command_options, args)
         @global_options  = global_options

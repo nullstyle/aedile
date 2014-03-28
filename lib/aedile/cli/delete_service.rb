@@ -3,13 +3,9 @@ module Aedile
     class DeleteService < ServiceCommand
 
       def run
-        # TODO
-        return if !agree("Are you sure you want to delete service #{name}? (y/n)")
-
+        return unless console.confirm_service_delete(service)
         service.delete
-        puts "Deleted service #{name}"
-      rescue Service::NotFound ; 
-        raise "Service #{name} doesn't exist"
+        console.service_deleted(service)
       end
       
     end

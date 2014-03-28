@@ -4,6 +4,10 @@ module Aedile
       Thread.current[:aedile_notifier] ||= new()
     end
 
+
+    include Hirb::Console
+
+    # sync related outputs
     def sync_started
       puts "=> Syncing with fleet:"
     end
@@ -24,6 +28,20 @@ module Aedile
 
     def unit_delete_started(unit_name)
       puts "  deleting #{unit_name}"
+    end
+
+    # service commands
+
+    def confirm_service_delete(service)
+      agree("Are you sure you want to delete service #{service.name}? (y/n)")
+    end
+
+    def service_deleted(service)
+      puts "Deleted service #{service.name}"
+    end
+
+    def service_not_found(name)
+      raise "Service '#{name}' doesn't exist"
     end
 
   end
