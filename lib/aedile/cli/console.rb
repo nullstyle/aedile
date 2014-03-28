@@ -3,7 +3,6 @@ module Aedile
     class Console < Base
 
       def run
-        require 'pry'
         Pry.start client, prompt:[proc{ ">> " }, proc{ "|  " }]
       end
       

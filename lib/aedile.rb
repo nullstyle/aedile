@@ -8,6 +8,7 @@ require 'multi_json'
 require 'tilt'
 require 'liquid'
 require 'tilt/liquid'
+require 'pry'
 
 module Aedile
   extend ActiveSupport::Autoload 
