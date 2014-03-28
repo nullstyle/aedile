@@ -71,11 +71,9 @@ module Aedile
     end
 
     def delete
-      begin
-        @client.etcd.delete(etcd_key, recursive:true)
-      rescue Etcd::KeyNotFound
-        raise NotFound
-      end
+      @client.etcd.delete(etcd_key, recursive:true)
+    rescue Etcd::KeyNotFound
+      raise NotFound
     end
 
     def image
