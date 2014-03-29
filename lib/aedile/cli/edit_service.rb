@@ -6,16 +6,16 @@ module Aedile
         new_config = ServiceConfig.from_edit(service.config)
         service.set_config(new_config)
 
-        puts "Config for service #{name} updated"
+        console.service_config_updated(service)
 
       rescue Service::InvalidConfig
-        raise "Config for service #{name} would become invalid"
+        console.service_config_edit_failed(:invalid, service)
       rescue EditJson::Unparsable
-        raise "Edit aborted"
+        console.service_config_edit_failed(:aborted, service)
       rescue EditJson::Canceled
-        raise "Edit canceled"
+        console.service_config_edit_failed(:canceled, service)
       rescue EditJson::Unchanged
-        raise "Config for service #{name} unchanged"
+        console.service_config_edit_failed(:unchanged, service)
       end
     end
   end

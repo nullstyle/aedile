@@ -40,6 +40,25 @@ module Aedile
       puts "Deleted service #{service.name}"
     end
 
+    def service_config_updated(service)
+      puts "Config for service #{service.name} updated"
+    end
+
+    def service_config_edit_failed(failure_type, service)
+      case failure_type
+      when :invalid ;
+        raise "Config for service #{service.name} would become invalid"
+      when :aborted ;
+        raise "Edit aborted"
+      when :canceled ;
+        raise "Edit canceled"
+      when :unchanged ;
+        raise "Config for service #{service.name} unchanged"
+      else
+        raise failure_type.to_s
+      end
+    end
+
     def service_not_found(name)
       raise "Service '#{name}' doesn't exist"
     end
