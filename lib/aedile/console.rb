@@ -63,10 +63,32 @@ module Aedile
       raise "Service '#{name}' doesn't exist"
     end
 
+    def list_services(names)
+      names.each{|s| puts s }
+    end
+
 
     # unit messages
     def unit_not_found(name)
       raise "Unit '#{name}' doesn't exist"
+    end
+
+    def list_units(units)
+      view units.map(&:status_hash), class: :tab_table, fields: [:UNIT, :STATUS]
+    end
+
+    #
+    def manager_installed
+      puts "Aedile manager installed into fleet"
+    end
+
+    def manager_booted
+      puts "=> Booting Aedile Manager - #{Aedile::VERSION}"
+      puts "=> Performing Initial Sync..."
+    end
+
+    def manager_waiting_for_changes
+      puts "=> Waiting for changes in config"
     end
   end
 end

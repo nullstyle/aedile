@@ -3,7 +3,7 @@ module Aedile
     class ListServices < Base
 
       def run
-        client.service_names.each{|s| puts s }
+        console.list_services(client.service_names)
       end
       
     end

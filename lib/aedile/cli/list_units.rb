@@ -3,7 +3,7 @@ module Aedile
     class ListUnits < Base
 
       def run
-        view client.units.map(&:status_hash), class: :tab_table, fields: [:UNIT, :STATUS]
+        console.list_units(client.units)
       end
       
     end

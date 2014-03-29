@@ -4,7 +4,7 @@ module Aedile
 
       def run
         client.install_manager
-        puts "Aedile manager installed into fleet"
+        console.manager_installed
       end
 
     end

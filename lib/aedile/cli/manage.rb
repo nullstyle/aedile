@@ -7,7 +7,7 @@ module Aedile
 
         loop do
           client.sync_with_fleet
-          puts "=> Waiting for changes in config"
+          console.manager_waiting_for_changes
           client.etcd.watch("/aedile", recursive:true)
         end
       rescue Interrupt
@@ -16,13 +16,8 @@ module Aedile
 
 
       private
-      def apply_changes
-        puts "TODO: push service changes through to fleet"
-      end
-
       def boot_message
-        puts "=> Booting Aedile Manager - #{Aedile::VERSION}"
-        puts "=> Performing Initial Sync..."
+        console.manager_booted
       end
     end
 
