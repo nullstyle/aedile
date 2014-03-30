@@ -32,6 +32,10 @@ module Aedile
 
     # service messages
 
+    def service_created(service)
+      puts "Created service #{service.name}"
+    end
+
     def confirm_service_delete(service)
       agree("Are you sure you want to delete service #{service.name}? (y/n)")
     end
@@ -42,6 +46,19 @@ module Aedile
 
     def service_config_updated(service)
       puts "Config for service #{service.name} updated"
+    end
+
+    def service_create_failed(failure_type, service)
+      case failure_type
+      when :aborted ;
+        raise "Creation aborted"
+      when :canceled ;
+        raise "Creation canceled"
+      when :already_exists ;
+        raise "Service #{service.name} already exists"
+      else
+        raise failure_type.to_s
+      end
     end
 
     def service_config_edit_failed(failure_type, service)
@@ -59,8 +76,9 @@ module Aedile
       end
     end
 
-    def service_not_found(name)
-      raise "Service '#{name}' doesn't exist"
+    def service_not_found(name, throws=true)
+      message = "Service '#{name}' doesn't exist"
+      throws ? raise message : puts message
     end
 
     def list_services(names)
@@ -89,6 +107,10 @@ module Aedile
 
     def manager_waiting_for_changes
       puts "=> Waiting for changes in config"
+    end
+
+    def manager_exiting
+      puts "Exiting..."
     end
   end
 end

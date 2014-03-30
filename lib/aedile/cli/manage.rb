@@ -11,7 +11,7 @@ module Aedile
           client.etcd.watch("/aedile", recursive:true)
         end
       rescue Interrupt
-        puts "Exiting..."
+        console.manager_exiting
       end
 
 

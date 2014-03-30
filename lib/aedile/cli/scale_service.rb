@@ -15,12 +15,12 @@ module Aedile
         service = client.get_service(name)
 
         unless service.exists?
-          puts "error: service #{name} doesn't exist"
+          console.service_not_found(name, false)
           return
         end
 
         service.set_scale(scale)
-
+        
         puts "scale for service #{name} set to #{scale}"
       end
       

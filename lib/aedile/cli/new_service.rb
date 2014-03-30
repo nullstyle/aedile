@@ -11,16 +11,16 @@ module Aedile
         new_config = ServiceConfig.from_edit(service.config, error_on_unchanged: false)
 
         service.create(new_config)
-        puts "Created service #{name}"
+        console.service_created(service)
 
         # puts "TODO: ask for initial scale"
         # puts "TODO: set initial scale in etcd"
       rescue Service::AlreadyExists
-        raise "Service #{name} already exists"
+        console.service_create_failed(:already_exists, service)
       rescue EditJson::Unparsable
-        raise "aborting"
+        console.service_create_failed(:aborted, service)
       rescue EditJson::Canceled
-        raise "Creation canceled"
+        console.service_create_failed(:canceled, service)
       end
       
     end
