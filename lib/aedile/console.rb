@@ -93,6 +93,10 @@ module Aedile
       names.each{|s| puts s }
     end
 
+    def show_service(service)
+      puts service.config.json
+    end
+
     # unit messages
     def unit_not_found(name)
       raise "Unit '#{name}' doesn't exist"

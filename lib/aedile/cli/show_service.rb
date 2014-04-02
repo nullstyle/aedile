@@ -3,7 +3,7 @@ module Aedile
     class ShowService < ServiceCommand
 
       def run
-        puts service.config.json
+        console.show_service service
       end
       
     end
