@@ -106,6 +106,10 @@ module Aedile
       view units.map(&:status_hash), class: :tab_table, fields: [:UNIT, :STATUS]
     end
 
+    def show_unit(unit)
+      puts unit.unit_content
+    end
+
     #
     def manager_installed
       puts "Aedile manager installed into fleet"

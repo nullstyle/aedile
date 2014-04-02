@@ -3,7 +3,7 @@ module Aedile
     class ShowUnit < UnitCommand
 
       def run
-        puts unit.unit_content
+        console.show_unit unit
       end
       
     end
