@@ -4,7 +4,7 @@ module Aedile
 
       def run
         unit.sync
-        puts "#{unit_name} submitted to fleet"
+        console.unit_submitted(unit)
       end
       
     end

@@ -20,8 +20,8 @@ module Aedile
         end
 
         service.set_scale(scale)
-        
-        puts "scale for service #{name} set to #{scale}"
+
+        console.service_scaled(service, scale)
       end
       
     end

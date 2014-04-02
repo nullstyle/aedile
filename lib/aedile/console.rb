@@ -36,6 +36,10 @@ module Aedile
       puts "Created service #{service.name}"
     end
 
+    def service_scaled(service, scale)
+      puts "scale for service #{service.name} set to #{scale}"
+    end
+
     def confirm_service_delete(service)
       agree("Are you sure you want to delete service #{service.name}? (y/n)")
     end
@@ -78,17 +82,24 @@ module Aedile
 
     def service_not_found(name, throws=true)
       message = "Service '#{name}' doesn't exist"
-      throws ? raise message : puts message
+      if throws
+        raise message
+      else
+        puts message
+      end
     end
 
     def list_services(names)
       names.each{|s| puts s }
     end
 
-
     # unit messages
     def unit_not_found(name)
       raise "Unit '#{name}' doesn't exist"
+    end
+
+    def unit_submitted(unit)
+      puts "#{unit.unit_name} submitted to fleet"
     end
 
     def list_units(units)
@@ -98,6 +109,10 @@ module Aedile
     #
     def manager_installed
       puts "Aedile manager installed into fleet"
+    end
+
+    def manager_uninstalled
+      puts "Aedile manager removed from fleet"
     end
 
     def manager_booted

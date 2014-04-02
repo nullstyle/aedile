@@ -4,7 +4,7 @@ module Aedile
 
       def run
         client.uninstall_manager
-        puts "Aedile manager removed from fleet"
+        console.manager_uninstalled
       end
 
     end
